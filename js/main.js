@@ -57,15 +57,31 @@ function buscarNombre(participantes) {
     }
     else {
         alert(`Se encontraron ${resultado.length} coincidencias.\n ${JSON.stringify(resultado)}`);
+        //Muestro en el DOM los resultados
+        let divBusqueda = document.createElement("div");
+        divBusqueda.innerHTML = `<h2> Se encontraron ${resultado.length} coincidencias </h2>`;
+        document.body.appendChild(divBusqueda);
+    
+        for (const buscar of resultado) {
+            let divBusqueda = document.createElement("div");
+            divBusqueda.innerHTML = `<h3> Nombre: ${buscar.nombre}. Apellido: ${buscar.apellido}. DNI: ${buscar.dni} </h3>`;
+            document.body.appendChild(divBusqueda);
+        }    
     }
 }
 
 function modificarNombre(participantes) {
-    alert("Para ver la lista de participantes abra la consola con F12")
+    alert("La lista de participantes se mostrará a continuación")
 
+    //Muestro en el DOM todos los nombres cargados
     for (let i=0; i < participantes.length; i++) {
+        let divParticipantes = document.createElement("div");
+        divParticipantes.innerHTML = `<h3> ${i+1}: Nombre: ${participantes[i].nombre}. Apellido: ${participantes[i].apellido}. DNI: ${participantes[i].dni} </h3>`;
+        document.body.appendChild(divParticipantes);
+
         console.log(i + " " + " " + participantes[i].nombre + " " + participantes[i].apellido + " " + participantes[i].dni);
     }
+
     
     let indice = parseInt(prompt("Ingresar la posición del dato a modificar. (Para salir ingrese 000)"));
     if (indice == 000){
@@ -77,7 +93,7 @@ function modificarNombre(participantes) {
         let apellido = prompt("Ingrese el apellido");
         apellido = validarNombre(apellido);
         let dni = prompt("Ingrese DNI");
-        participantes[indice] = (new Usuario(nombre, apellido, dni));
+        participantes[indice-1] = (new Usuario(nombre, apellido, dni));
         return participantes;
     }
 }
@@ -123,6 +139,17 @@ function buscarNumero(participantes) {
     }
     else {
         alert(`Se encontraron ${resultado.length} coincidencias.\n ${JSON.stringify(resultado)}`);
+
+        //Muestro en el DOM los resultados
+        let divBusqueda = document.createElement("div");
+        divBusqueda.innerHTML = `<h2> Se encontraron ${resultado.length} coincidencias </h2>`;
+        document.body.appendChild(divBusqueda);
+    
+        for (let i=0; i < resultado.length; i++) {
+            let divBusqueda = document.createElement("div");
+            divBusqueda.innerHTML = `<h3> Número: ${resultado[i]} </h3>`;
+            document.body.appendChild(divBusqueda);
+        }    
     }
 }
 
@@ -130,6 +157,10 @@ function modificarNumero(participantes) {
     alert("Para ver la lista de los números participantes abra la consola con F12")
 
     for (let i=0; i < participantes.length; i++) {
+        let divParticipantes = document.createElement("div");
+        divParticipantes.innerHTML = `<h3> ${i+1}: Nombre: ${participantes[i].nombre}. Apellido: ${participantes[i].apellido}. DNI: ${participantes[i].dni} </h3>`;
+        document.body.appendChild(divParticipantes);
+
         console.log(`${i}  es el número: ${participantes[i]}`);
     }
     
@@ -140,7 +171,7 @@ function modificarNumero(participantes) {
     else{
         let numero = prompt("Ingrese el número");
         numero = validarNumero(numero);
-        participantes[indice] = numero;
+        participantes[indice-1] = numero;
         return participantes;
     }
 }
@@ -168,7 +199,13 @@ function sorteo(participantes, cantGanadores) {
         if(i >= 1){
             aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i);
         }
-        alert (`El ganador número ${i + 1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido} DNI: ${participantes[aleatorio[i]].dni}`);
+
+        //Muestro los ganadores en el DOM
+        let divGanadores = document.createElement("div");
+        divGanadores.innerHTML = `<h3> El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido}. DNI: ${participantes[aleatorio[i]].dni} </h3>`;
+        document.body.appendChild(divGanadores);
+
+        alert (`El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido} DNI: ${participantes[aleatorio[i]].dni}`);
     }
 }
 
@@ -180,6 +217,12 @@ function sorteoNumero(participantes, cantGanadores) {
         if(i >= 1){
             aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i);
         }
+
+        //Muestro los ganadores en el DOM
+        let divGanadores = document.createElement("div");
+        divGanadores.innerHTML = `<h3> El ${i+1} ganador es el número: ${participantes[aleatorio[i]]} </h3>`;
+        document.body.appendChild(divGanadores);
+
         alert (`El ${i + 1} ganador es el número: ${participantes[aleatorio[i]]}`);
     }
 }
@@ -266,6 +309,12 @@ do{
         ban1 = false;
     }
 }while(ban1);
+
+//Indico en el DOM la cantidad de Ganadores
+let ganadoresDom = document.getElementById("javascript");
+let divGanadores = document.createElement("div");
+divGanadores.innerHTML = `<h3> El sorteo tendrá ${cantGanadores} ganadores`;
+ganadoresDom.appendChild(divGanadores);
 
 //Se consulta si se van a sortear nombres o números
 do{
