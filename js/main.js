@@ -1,18 +1,12 @@
+
 //Defino el objeto que va a contener los datos
 class Usuario {
     constructor(nombre, apellido, dni, edad, sexo) {
         this.nombre = nombre.toUpperCase();
         this.apellido = apellido.toUpperCase();
         this.dni = parseInt(dni)
-    //    this.edad = parseInt(edad);
-    //    this.sexo = sexo;
-    }
-/*    sumaIva() {
-        this.precio = this.precio * 1.21;
-    }*/
 }
-
-
+}
 
 //Función para validar nombres
 function validarNombre(nombre) {
@@ -291,55 +285,87 @@ let tipo = 0;
 let ban1;
 let ban2;
 let datos = [];
+let participantes = [];
+let numeros = [];
 
-alert ("Bienvenido a la Aplicación de sorteos");
 
-//Primero se consulta por la cantidad de ganadores
-do{
-    cantGanadores = parseInt(prompt("Ingrese la cantidad de ganadores (máximo 5)"));
-    if (isNaN(cantGanadores)){
-        alert ("La cantidad ingresada no es un número")
-        ban1 = true;
-    }
-    else if ((cantGanadores <= 0) || (cantGanadores > 5)){
-        alert ("La cantidad ingresada debe ser un número entre 1 y 5")
-        ban1 = true;
+//Obtengo por eventos la cantidad de ganadores de mi sorteo
+let formGanadores = document.getElementById("formGanadores");
+formGanadores.addEventListener("submit", validarGanadores);
+
+//Obtengo por eventos el tipo de sorteo a realizar
+let formTipoSorteo = document.getElementById("formTipoSorteo")
+formTipoSorteo.addEventListener("submit", validarTipo);
+
+//Realizar la carga de los participantes
+let formCarga = document.getElementById("formCarga");
+formCarga.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formulario = new FormData(e.target);
+    const participante = new Usuario (formulario.get("nombre"), formulario.get("apellido"), formulario.get("dni"))
+    participantes.push(participante);
+    console.log(participantes)
+})
+
+//Realizar la carga de los números
+let formCarga2 = document.getElementById("formCarga2");
+formCarga2.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formulario = new FormData(e.target);
+    numeros.push(formulario.get("numero"));
+    console.log(numeros);
+})
+
+//Realizar sorteo
+let sortear = document.getElementById("sortear");
+let sortearNumeros = document.getElementById("sortearNumero");
+sortear.addEventListener("click", sorteo(participantes, document.getElementById("inputGanadores").value));
+sortearNumeros.addEventListener("click", sorteoNumero(participantes, document.getElementById("inputGanadores").value));
+
+function validarGanadores(e) {
+    let divGanadores = document.getElementById("divGanadores");
+    let submitGanadores = document.getElementById("submitGanadores");
+    e.preventDefault();
+    let formulario = e.target;
+
+    if ((formulario.children[0].value <= 0) || (formulario.children[0].value > 5)){
+        alert ("La cantidad de ganadores debe ser un número entre 1 y 5")
     }
     else{
-        ban1 = false;
+        divGanadores.innerHTML = `<h3> El sorteo tendrá ${formulario.children[0].value} ganadores`;
+        submitGanadores.disabled = true;
+
     }
-}while(ban1);
-
-//Indico en el DOM la cantidad de Ganadores
-let ganadoresDom = document.getElementById("javascript");
-let divGanadores = document.createElement("div");
-divGanadores.innerHTML = `<h3> El sorteo tendrá ${cantGanadores} ganadores`;
-ganadoresDom.appendChild(divGanadores);
-
-//Se consulta si se van a sortear nombres o números
-do{
-    tipo = parseInt(prompt ("Seleccione la opción deseada:\n 1. Realizar sorteo de nombres.\n 2. Realizar sorteo de números.\n"));
-    if ((tipo === 1) || (tipo === 2)){
-        ban2 = false;
-    }
-    else{
-        alert ("No se seleccionó una opción correcta");
-        ban2 = true;
-    }
-}while(ban2);
-
-
-//Se realizará el ingreso de datos según la elección previa
-switch(tipo){
-    case (1):
-        menuNombres (cantGanadores);
-        //datos = ingresarNombre();
-        break;
-    case (2):
-        menuNumeros (cantGanadores);
-        //datos = ingresarNumero();
-        break;
-    default:
-        alert ("ERROR. NO SE INGRESO NINGUNA OPCIÓN")
-        break;
 }
+
+function validarTipo (e) {
+    e.preventDefault();
+    let divCarga = document.getElementById("divCarga");
+    let divCarga2 = document.getElementById("divCarga2");
+    let divSorteo = document.getElementById("sortear");
+    let divSorteo2 = document.getElementById("sortearNumero");
+
+
+    let valor = parseInt(document.querySelector('input[name="tipo"]:checked').value);
+
+    console.log(valor)
+    switch(valor){
+        case (1):
+            divCarga.style.display = "block";
+            divSorteo.style.display = "block";
+            divCarga2.style.display = "none";
+            divSorteo2.style.display = "none";
+            break;
+        case (2):
+            divCarga2.style.display = "block";
+            divSorteo2.style.display = "block";
+            divCarga.style.display = "none";
+            divSorteo.style.display = "none";
+            break;
+        default:
+            alert ("ERROR. NO SE INGRESO NINGUNA OPCIÓN")
+            break;
+    }
+
+}
+
