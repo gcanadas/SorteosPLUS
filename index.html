@@ -4,66 +4,100 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Primera Entrega del Proyecto Final</title>
+    <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+    <title>Segunda Entrega del Proyecto Final</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <h1>PLUS Sorteos</h1>
-    <h3><u><b>Comisión:</b></u> 30345</h3>
-    <h3><u><b>Alumno:</b> Gabriel Eduardo Cañadas Fragapane</u></h3>
-    <h4>Esta es una herramienta online donde podrás obtener ganadores aleatorios (al azar) de una lista de participantes.</h4>
-    <p>Para el proyecto final se realizará una página que permita realizar sorteos a partir de una cierta cantidad de nombres o números que ingrese el usuario.</p>
-    <ul><li>Se deberá indicar cuantos ganadores se desean (máximo 5)</li></ul>
-    <ul><li>Se debera indicar si se desea sortear números o nombres</li></ul>
-    <ul><li>Se deberán ingresar todos los números o nombres a participar del sorteo</li></ul>
-    <ul><li>Se mostrarán todos los ganadores</li></ul>
-    <hr>
-    <h4>Paso 1: Ingresar la cantidad de ganadores que tendrá el sorteo (Máximo 5)</h4>
-    <form id="formGanadores">
-        <input type="number" id="inputGanadores">
-        <input type="submit" id="submitGanadores" value="Enviar">
-    </form>
-    <div id="divGanadores">
-        <!-- Aca se agregará mediante JS la cantidad de ganadores elegida -->
-    </div>
-    <div id="divTipoSorteo">
-        <hr><h4>Paso 2: Ingresar el tipo de sorteo a realizar</h4>
-                                        <form id="formTipoSorteo">
-                                            <label for="tipo">Tipo de sorteo: </label>
-                                            <input type="radio" name="tipo" value="1" selected required> Nombres
-                                            <input type="radio" name="tipo" value="2" required> Números
-                                            <input type="submit" id="submitTipo" value="Seleccionar">
-                                        </form>
-    </div>
-    <div id="divGeneral">
-        <hr>
-        <h4>Paso 3: Realice la carga de los participantes</h4>
-        <div id="divCarga">
-            <form id="formCarga">
-                <label for="nombre">Nombre: </label>
-                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre">
-                <label for="apellido">Apellido: </label>
-                <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido">
-                <label for="dni">DNI: </label>
-                <input type="number" name="dni" id="dni" placeholder="Ingrese el DNI">
-                <input type="submit" id="submitParticipante" value="Cargar">
-            </form>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-light p-0">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <img src="img/logo_grande.svg" alt="" width="200" class="d-inline-block align-text-top">
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item m-3">
+                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                  </li>
+                  <li class="nav-item m-3">
+                    <a class="nav-link" href="#">Caracteristicas</a>
+                  </li>
+                  <li class="nav-item m-3">
+                    <a class="nav-link" href="#">Recomendaciones</a>
+                  </li>
+                  <li class="nav-item m-3">
+                    <a class="nav-link" href="#">Tus sorteos</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+    <main>
+        <div class="card text-center text-bg-success">
+            <div class="card-header">
+              PLUS Sorteos
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><u><b>Comisión:</b></u> 30345</h5>
+              <h5 class="card-title mb-3"><u><b>Alumno:</b></u> Gabriel Eduardo Cañadas</h5>
+              <p class="card-text mb-2">Esta es una herramienta online donde podrás obtener ganadores aleatorios (al azar) de una lista de participantes.</p>
+              <p class="card-text mb-2">Para el proyecto final se realizará una página que permita realizar sorteos a partir de una cierta cantidad de nombres o números que ingrese el usuario.</p>
+            </div>
+            <div class="card-footer text-muted"></div>
         </div>
-        <div id="divCarga2">
-            <form id="formCarga2">
-                <label for="numero">Número: </label>
-                <input type="text" name="numero" id="numero" placeholder="Ingrese un número">
-                <input type="submit" id="submitParticipante2" value="Cargar">
-            </form>
+        <div class="d-grid gap-2 col-3 mx-auto m-4">
+            <button class="btn btn-primary" id="btnComenzar" type="button">Comenzar</button>
         </div>
-        <hr>
-        <div id="sorteo">
-            <h4>Paso 4: Realizar sorteo</h4>
-            <button id="sortear">Sortear Participantes</button>
-            <button id="sortearNumero">Sortear Números</button>
+        <div id="divPaso1"></div>
+        <div id="divGanadores">
+            <!-- Aca se agregará mediante JS la cantidad de ganadores elegida -->
         </div>
-    </div>
-
+        <div id="divTipoSorteo"></div>
+        <div class="card" id="divCargaNombres">
+            <div class="card-body">
+                <h4>Paso 3: Realice la carga de los participantes</h4>
+                <form id="formCargaNombre">
+                    <label for="nombre">Nombre: </label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" required>
+                    <label for="apellido">Apellido: </label>
+                    <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido" required>
+                    <label for="dni">DNI: </label>
+                    <input type="number" name="dni" id="dni" placeholder="Ingrese el DNI" required>
+                    <input type="submit" id="submitParticipante" value="Cargar">
+                </form>
+            </div>
+        </div>
+        <div class="card" id="divCargaNumeros">
+            <div class="card-body">
+                <h4>Paso 3: Realice la carga de los números</h4>
+                <form id="formCargaNumeros">
+                    <label for="numero">Número: </label>
+                    <input type="text" name="numero" id="numero" placeholder="Ingrese un número">
+                    <input type="submit" id="submitParticipante2" value="Cargar">
+                </form>
+            </div>
+        </div>
+        <div class="card" id="sortearNombres">
+            <div class="card-body">
+                <h4>Paso 4: Realizar sorteo</h4>
+                <button id="btnSortearNombre">Sortear Participantes</button>
+            </div>
+        </div>
+        <div class="card" id="sortearNumeros">
+            <div class="card-body">
+                <h4>Paso 4: Realizar sorteo</h4>
+                <button id="btnSortearNumero">Sortear Números</button>
+            </div>
+        </div>
+        <div id="divListarGanadores"></div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

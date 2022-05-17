@@ -8,6 +8,9 @@ class Usuario {
 }
 }
 
+/*
+//Se implementarán en futuras versiones
+
 //Función para validar nombres
 function validarNombre(nombre) {
     let ban;
@@ -21,26 +24,6 @@ function validarNombre(nombre) {
             return nombre;
         }
     }while(ban);
-}
-
-//Función para ingresar nombres
-function ingresarNombre(participante) {
-    //Ingreso los datos hasta que se escriba ESC
-    for(let i=0; i < maximo; i++ ){
-        let nombre = prompt("Ingrese el " + (i+1) + "° nombre. (Para terminar la carga ingrese ESC.)");
-        nombre = validarNombre(nombre);
-        if (nombre == "ESC"){
-            return participante;
-        }
-        else{
-            let apellido = prompt("Ingrese el apellido");
-            apellido = validarNombre(apellido);
-            let dni = prompt("Ingrese DNI");
-
-            participante.push (new Usuario(nombre, apellido, dni));
-        }
-
-    }
 }
 
 function buscarNombre(participantes) {
@@ -110,21 +93,6 @@ function validarNumero(numero) {
     }while(ban);
 }
 
-//Función para ingresar números
-function ingresarNumero(participantes) {
-    //Ingreso los numeros hasta que se ingrese ESC
-    for(let i=0; i < maximo; i++ ){
-        let numeros = prompt("Ingrese el " + (i+1) + " número. Para terminar la carga ingrese ESC.");
-        numeros = validarNumero(numeros);
-        if (numeros == "ESC"){
-            return participantes;
-        }
-        else{
-        participantes.push(numeros);
-        }
-    }
-}
-
 function buscarNumero(participantes) {
     buscar = parseInt(prompt ("Ingrese el número que desea buscar"));
     const resultado = participantes.filter((el) => el.includes(buscar));
@@ -168,7 +136,7 @@ function modificarNumero(participantes) {
         participantes[indice-1] = numero;
         return participantes;
     }
-}
+}*/
 
 //Función para validar que los indices aleatorios no se repitan
 function validarAleatorio(aleatorio, maximo, indice){ 
@@ -186,8 +154,9 @@ function validarAleatorio(aleatorio, maximo, indice){
 }
 
 //Función para realizar sorteo de nombres
-function sorteo(participantes, cantGanadores) {
+function sorteo() {
     let aleatorio = [];
+    console.log(cantGanadores);
     for(let i=0; i < cantGanadores; i++){
         aleatorio[i] = Math.floor((Math.random()*(participantes.length))); //calcúlo un índice aleatorio.
         if(i >= 1){
@@ -195,82 +164,36 @@ function sorteo(participantes, cantGanadores) {
         }
 
         //Muestro los ganadores en el DOM
-        let divGanadores = document.createElement("div");
-        divGanadores.innerHTML = `<h3> El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido}. DNI: ${participantes[aleatorio[i]].dni} </h3>`;
-        document.body.appendChild(divGanadores);
-
-        alert (`El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido} DNI: ${participantes[aleatorio[i]].dni}`);
+        let divListarGanadores = document.getElementById("divListarGanadores");
+        divListarGanadores.innerHTML += `<div class="card text-center text-bg-danger mb-3">
+                                            <div class="card-body">
+                                                <h3> El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido}. DNI: ${participantes[aleatorio[i]].dni} </h3>
+                                            </div>
+                                        </div>`
+        document.body.appendChild(divListarGanadores);
+        //alert (`El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido} DNI: ${participantes[aleatorio[i]].dni}`);
     }
 }
 
 //Función para realizar sorteo de números
-function sorteoNumero(participantes, cantGanadores) {
+function sorteoNumero() {
     let aleatorio = [];
     for(let i=0; i < cantGanadores; i++){
-        aleatorio[i] = Math.floor((Math.random()*(participantes.length))); //calcúlo un índice aleatorio.
+        aleatorio[i] = Math.floor((Math.random()*(numeros.length))); //calcúlo un índice aleatorio.
         if(i >= 1){
-            aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i);
+            aleatorio[i] = validarAleatorio(aleatorio, numeros.length, i);
         }
 
         //Muestro los ganadores en el DOM
-        let divGanadores = document.createElement("div");
-        divGanadores.innerHTML = `<h3> El ${i+1} ganador es el número: ${participantes[aleatorio[i]]} </h3>`;
-        document.body.appendChild(divGanadores);
-
-        alert (`El ${i + 1} ganador es el número: ${participantes[aleatorio[i]]}`);
+        let divListarGanadores = document.getElementById("divListarGanadores");
+        divListarGanadores.innerHTML += `<div class="card text-center text-bg-danger mb-3">
+                                            <div class="card-body">
+                                                <h3> El ${i+1} ganador es el número: ${numeros[aleatorio[i]]} </h3>
+                                            </div>
+                                        </div>`
+        document.body.appendChild(divListarGanadores);
+        //alert (`El ${i + 1} ganador es el número: ${participantes[aleatorio[i]]}`);
     }
-}
-
-
-function menuNombres(cantGanadores) {
-    let eleccion = 0;
-    let participantes = [];
-    while (eleccion != 4) {
-        eleccion = parseInt(prompt("Seleccione la opción deseada:\n 1. Ingresar participantes.\n 2. Buscar participante.\n 3. Modificar datos ingresados.\n 4. Realizar sorteo.\n"));
-        switch(eleccion){
-            case (1):
-                participantes = ingresarNombre(participantes);
-                break;
-            case (2):
-                buscarNombre(participantes);
-                break;
-            case (3):
-                participantes = modificarNombre(participantes);
-                break;
-            case (4):
-                sorteo(participantes,cantGanadores);
-                break;
-            default:
-                alert ("ERROR. NO SE INGRESO UNA OPCIÓN CORRECTA")
-                break;
-        }
-    }
-}
-
-function menuNumeros(cantGanadores) {
-    let eleccion = 0;
-    let participantes = [];
-    while (eleccion != 4) {
-        eleccion = parseInt(prompt("Seleccione la opción deseada:\n 1. Ingresar número.\n 2. Buscar número.\n 3. Modificar datos ingresados.\n 4. Realizar sorteo.\n"));
-        switch(eleccion){
-            case (1):
-                participantes = ingresarNumero(participantes);
-                break;
-            case (2):
-                buscarNumero(participantes);
-                break;
-            case (3):
-                participantes = modificarNumero(participantes);
-                break;
-            case (4):
-                sorteoNumero(participantes,cantGanadores);
-                break;
-            default:
-                alert ("ERROR. NO SE INGRESO UNA OPCIÓN CORRECTA")
-                break;
-        }
-    }
-
 }
 
 //-----------------------------------
@@ -288,84 +211,115 @@ let datos = [];
 let participantes = [];
 let numeros = [];
 
+//Comenzar con el sorteo
+let btnComenzar = document.getElementById("btnComenzar");
+btnComenzar.addEventListener("click", () => {
+    let divPaso1 = document.getElementById("divPaso1");
+    divPaso1.innerHTML =`<div class="card">
+                            <div class="card-body">
+                                <h4>Paso 1: Ingresar la cantidad de ganadores que tendrá el sorteo (Máximo 5)</h4>
+                                <form id="formGanadores">
+                                    <input type="number" id="inputGanadores">
+                                    <input type="submit" id="submitGanadores" value="Enviar">
+                                </form>
+                            </div>
+                        </div>`
+    
+    //Obtengo por eventos la cantidad de ganadores de mi sorteo
+    let formGanadores = document.getElementById("formGanadores");
+    formGanadores.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let divGanadores = document.getElementById("divGanadores");
+        let submitGanadores = document.getElementById("submitGanadores");
+        let divTipoSorteo = document.getElementById("divTipoSorteo");
+        let formulario = e.target;
 
-//Obtengo por eventos la cantidad de ganadores de mi sorteo
-let formGanadores = document.getElementById("formGanadores");
-formGanadores.addEventListener("submit", validarGanadores);
+        if ((formulario.children[0].value <= 0) || (formulario.children[0].value > 5)){
+            alert ("La cantidad de ganadores debe ser un número entre 1 y 5")
+        }
+        else{
+            const ganadores = formulario.children[0].value;
+            localStorage.setItem("cantGanadores", ganadores);
+            cantGanadores = ganadores;
+            divGanadores.innerHTML =`<div class="card text-center text-bg-danger">
+                                        <div class="card-body">
+                                            <h4> El sorteo tendrá ${formulario.children[0].value} ganadores</h4>
+                                        </div>
+                                    </div>`;
+            submitGanadores.disabled = true;
+            divTipoSorteo.innerHTML =`<div class="card">
+                                        <div class="card-body">
+                                            <h4>Paso 2: Ingresar el tipo de sorteo a realizar</h4>
+                                            <form id="formTipoSorteo">
+                                                <label for="tipo">Tipo de sorteo: </label>
+                                                <input type="radio" name="tipo" value="1" selected required> Nombres
+                                                <input type="radio" name="tipo" value="2" required> Números
+                                                <input type="submit" id="submitTipo" value="Seleccionar">
+                                            </form>
+                                        </div>
+                                    </div>`
+        }
+        //Obtengo por eventos el tipo de sorteo a realizar   
+        let formTipoSorteo = document.getElementById("formTipoSorteo")
+        formTipoSorteo.addEventListener("submit", (e) => {
+            e.preventDefault();
+            let divCargaNombres = document.getElementById("divCargaNombres");
+            let divCargaNumeros = document.getElementById("divCargaNumeros");
+            let divSorteoNombres = document.getElementById("sortearNombres");
+            let divSorteoNumeros = document.getElementById("sortearNumeros");
 
-//Obtengo por eventos el tipo de sorteo a realizar
-let formTipoSorteo = document.getElementById("formTipoSorteo")
-formTipoSorteo.addEventListener("submit", validarTipo);
+            let valor = parseInt(document.querySelector('input[name="tipo"]:checked').value);
+
+            //console.log(valor)
+            switch(valor){
+                case (1):
+                    divCargaNombres.style.display = "block";
+                    divSorteoNombres.style.display = "block";
+                    divCargaNumeros.style.display = "none";
+                    divSorteoNumeros.style.display = "none";
+                    break;
+                case (2):
+                    divCargaNumeros.style.display = "block";
+                    divSorteoNumeros.style.display = "block";
+                    divCargaNombres.style.display = "none";
+                    divSorteoNombres.style.display = "none";
+                    break;
+                default:
+                    alert ("ERROR. NO SE INGRESO NINGUNA OPCIÓN")
+                    break;
+            }
+        });
+    });
+})
 
 //Realizar la carga de los participantes
-let formCarga = document.getElementById("formCarga");
-formCarga.addEventListener("submit", (e) => {
+let formCargaNombre = document.getElementById("formCargaNombre");
+formCargaNombre.addEventListener("submit", (e) => {
     e.preventDefault();
     let formulario = new FormData(e.target);
     const participante = new Usuario (formulario.get("nombre"), formulario.get("apellido"), formulario.get("dni"))
-    participantes.push(participante);
-    console.log(participantes)
+    participantes.push(participante)
+    localStorage.setItem("Participantes", JSON.stringify(participantes))
+    //console.log(participantes)
+    formCargaNombre.reset()
 })
 
 //Realizar la carga de los números
-let formCarga2 = document.getElementById("formCarga2");
-formCarga2.addEventListener("submit", (e) => {
+let formCargaNumero = document.getElementById("formCargaNumeros");
+formCargaNumero.addEventListener("submit", (e) => {
     e.preventDefault();
     let formulario = new FormData(e.target);
-    numeros.push(formulario.get("numero"));
-    console.log(numeros);
+    const numero = formulario.get("numero");
+    numeros.push(numero);
+    localStorage.setItem("Numeros", JSON.stringify(numeros))
+    //console.log(numeros);
+    formCargaNumero.reset()
 })
 
 //Realizar sorteo
-let sortear = document.getElementById("sortear");
-let sortearNumeros = document.getElementById("sortearNumero");
-sortear.addEventListener("click", sorteo(participantes, document.getElementById("inputGanadores").value));
-sortearNumeros.addEventListener("click", sorteoNumero(participantes, document.getElementById("inputGanadores").value));
+let btnSortearNombres = document.getElementById("btnSortearNombre");
+let btnSortearNumeros = document.getElementById("btnSortearNumero");
+btnSortearNombres.addEventListener("click", sorteo);
+btnSortearNumeros.addEventListener("click", sorteoNumero);
 
-function validarGanadores(e) {
-    let divGanadores = document.getElementById("divGanadores");
-    let submitGanadores = document.getElementById("submitGanadores");
-    e.preventDefault();
-    let formulario = e.target;
-
-    if ((formulario.children[0].value <= 0) || (formulario.children[0].value > 5)){
-        alert ("La cantidad de ganadores debe ser un número entre 1 y 5")
-    }
-    else{
-        divGanadores.innerHTML = `<h3> El sorteo tendrá ${formulario.children[0].value} ganadores`;
-        submitGanadores.disabled = true;
-
-    }
-}
-
-function validarTipo (e) {
-    e.preventDefault();
-    let divCarga = document.getElementById("divCarga");
-    let divCarga2 = document.getElementById("divCarga2");
-    let divSorteo = document.getElementById("sortear");
-    let divSorteo2 = document.getElementById("sortearNumero");
-
-
-    let valor = parseInt(document.querySelector('input[name="tipo"]:checked').value);
-
-    console.log(valor)
-    switch(valor){
-        case (1):
-            divCarga.style.display = "block";
-            divSorteo.style.display = "block";
-            divCarga2.style.display = "none";
-            divSorteo2.style.display = "none";
-            break;
-        case (2):
-            divCarga2.style.display = "block";
-            divSorteo2.style.display = "block";
-            divCarga.style.display = "none";
-            divSorteo.style.display = "none";
-            break;
-        default:
-            alert ("ERROR. NO SE INGRESO NINGUNA OPCIÓN")
-            break;
-    }
-
-}
 
