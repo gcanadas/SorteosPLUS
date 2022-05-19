@@ -62,37 +62,51 @@
         <div class="card" id="divCargaNombres">
             <div class="card-body">
                 <h4>Paso 3: Realice la carga de los participantes</h4>
-                <form id="formCargaNombre">
-                    <label for="nombre">Nombre: </label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" required>
-                    <label for="apellido">Apellido: </label>
-                    <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido" required>
-                    <label for="dni">DNI: </label>
-                    <input type="number" name="dni" id="dni" placeholder="Ingrese el DNI" required>
-                    <input type="submit" id="submitParticipante" value="Cargar">
+                <form class="form-group m-3" id="formCargaNombre">
+                    <label class="col-sm-2 col-form-label" for="nombre">Nombre: </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" required>
+                    </div>
+                    <label class="col-sm-2 col-form-label" for="apellido">Apellido: </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido" required>
+                    </div>
+                    <label class="col-sm-2 col-form-label" for="dni">DNI: </label>
+                    <div class="col-sm-4">
+                        <input type="number" name="dni" id="dni" placeholder="Ingrese el DNI" required>
+                    </div>
+                    <input class="btn btn-secondary mt-3"type="submit" id="submitParticipante" value="Cargar">
                 </form>
+                <button class="btn btn-secondary" id="btnListarNombres">Ver participantes</button>
             </div>
         </div>
         <div class="card" id="divCargaNumeros">
             <div class="card-body">
                 <h4>Paso 3: Realice la carga de los números</h4>
-                <form id="formCargaNumeros">
-                    <label for="numero">Número: </label>
-                    <input type="text" name="numero" id="numero" placeholder="Ingrese un número">
-                    <input type="submit" id="submitParticipante2" value="Cargar">
+                <form class="form-group m-3" id="formCargaNumeros">
+                    <label class="col-sm-2 col-form-label" for="numero">Número: </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="numero" id="numero" placeholder="Ingrese un número">
+                    </div>
+                    <input class="btn btn-secondary mt-3" type="submit" id="submitParticipante2" value="Cargar">
                 </form>
+                <button class="btn btn-secondary" id="btnListarNumeros">Ver números</button>
+            </div>
+        </div>
+        <div class="card" id="divListado">
+            <div class="card-body">
             </div>
         </div>
         <div class="card" id="sortearNombres">
             <div class="card-body">
                 <h4>Paso 4: Realizar sorteo</h4>
-                <button id="btnSortearNombre">Sortear Participantes</button>
+                <button class="btn btn-secondary mt-3" id="btnSortearNombre">Sortear Participantes</button>
             </div>
         </div>
         <div class="card" id="sortearNumeros">
             <div class="card-body">
                 <h4>Paso 4: Realizar sorteo</h4>
-                <button id="btnSortearNumero">Sortear Números</button>
+                <button class="btn btn-secondary mt-3" id="btnSortearNumero">Sortear Números</button>
             </div>
         </div>
         <div id="divListarGanadores"></div>

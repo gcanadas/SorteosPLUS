@@ -1,7 +1,7 @@
 
 //Defino el objeto que va a contener los datos
 class Usuario {
-    constructor(nombre, apellido, dni, edad, sexo) {
+    constructor(nombre, apellido, dni) {
         this.nombre = nombre.toUpperCase();
         this.apellido = apellido.toUpperCase();
         this.dni = parseInt(dni)
@@ -138,6 +138,21 @@ function modificarNumero(participantes) {
     }
 }*/
 
+//Función para listar los datos (numeros o nombres) que se ingresan
+function listarNombres() {
+    let divListado = document.getElementById("divListado");
+    const almacenados = JSON.parse(localStorage.getItem("Participantes"));
+    for(const objeto of almacenados)
+        divListado.children[0].innerHTML += `<p> Nombre: ${objeto.nombre} Apellido: ${objeto.apellido} DNI: ${objeto.dni} </p>`
+}
+
+function listarNumeros() {
+    let divListado = document.getElementById("divListado");
+    const almacenados = JSON.parse(localStorage.getItem("Numeros"));
+    for(const numero of almacenados)
+        divListado.children[0].innerHTML += `<p> Número: ${numero} </p>`
+}
+
 //Función para validar que los indices aleatorios no se repitan
 function validarAleatorio(aleatorio, maximo, indice){ 
     while (true) {
@@ -159,15 +174,16 @@ function sorteo() {
     console.log(cantGanadores);
     for(let i=0; i < cantGanadores; i++){
         aleatorio[i] = Math.floor((Math.random()*(participantes.length))); //calcúlo un índice aleatorio.
-        if(i >= 1){
+        /*if(i >= 1){
             aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i);
-        }
+        }*/
+        i >= 1 && (aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i));
 
         //Muestro los ganadores en el DOM
         let divListarGanadores = document.getElementById("divListarGanadores");
         divListarGanadores.innerHTML += `<div class="card text-center text-bg-danger mb-3">
                                             <div class="card-body">
-                                                <h3> El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido}. DNI: ${participantes[aleatorio[i]].dni} </h3>
+                                                <h3> El ganador número ${i+1} es: ${(participantes[aleatorio[i]].nombre || "ERROR")} ${(participantes[aleatorio[i]].apellido || "ERROR")}. DNI: ${(participantes[aleatorio[i]].dni || "ERROR")} </h3>
                                             </div>
                                         </div>`
         document.body.appendChild(divListarGanadores);
@@ -180,15 +196,16 @@ function sorteoNumero() {
     let aleatorio = [];
     for(let i=0; i < cantGanadores; i++){
         aleatorio[i] = Math.floor((Math.random()*(numeros.length))); //calcúlo un índice aleatorio.
-        if(i >= 1){
+        /*if(i >= 1){
             aleatorio[i] = validarAleatorio(aleatorio, numeros.length, i);
-        }
+        }*/
+        i >= 1 && (aleatorio[i] = validarAleatorio(aleatorio, numeros.length, i));
 
         //Muestro los ganadores en el DOM
         let divListarGanadores = document.getElementById("divListarGanadores");
         divListarGanadores.innerHTML += `<div class="card text-center text-bg-danger mb-3">
                                             <div class="card-body">
-                                                <h3> El ${i+1} ganador es el número: ${numeros[aleatorio[i]]} </h3>
+                                                <h3> El ${i+1} ganador es el número: ${(numeros[aleatorio[i]] || "ERROR")} </h3>
                                             </div>
                                         </div>`
         document.body.appendChild(divListarGanadores);
@@ -205,9 +222,6 @@ const maximo = 1000;
 const nombreValido = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
 let cantGanadores = 0;
 let tipo = 0;
-let ban1;
-let ban2;
-let datos = [];
 let participantes = [];
 let numeros = [];
 
@@ -218,9 +232,13 @@ btnComenzar.addEventListener("click", () => {
     divPaso1.innerHTML =`<div class="card">
                             <div class="card-body">
                                 <h4>Paso 1: Ingresar la cantidad de ganadores que tendrá el sorteo (Máximo 5)</h4>
-                                <form id="formGanadores">
-                                    <input type="number" id="inputGanadores">
-                                    <input type="submit" id="submitGanadores" value="Enviar">
+                                <form class="form-group row m-3 text-center" id="formGanadores">
+                                    <div class="col-sm-3">
+                                        <input type="number" class="form-control col-3" id="inputGanadores">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="submit" id="submitGanadores" class="btn btn-secondary" value="Enviar">
+                                    </div>
                                 </form>
                             </div>
                         </div>`
@@ -233,28 +251,31 @@ btnComenzar.addEventListener("click", () => {
         let submitGanadores = document.getElementById("submitGanadores");
         let divTipoSorteo = document.getElementById("divTipoSorteo");
         let formulario = e.target;
-
-        if ((formulario.children[0].value <= 0) || (formulario.children[0].value > 5)){
+        if ((formulario.children[0].children[0].value <= 0) || (formulario.children[0].children[0].value > 5)){
             alert ("La cantidad de ganadores debe ser un número entre 1 y 5")
         }
         else{
-            const ganadores = formulario.children[0].value;
-            localStorage.setItem("cantGanadores", ganadores);
-            cantGanadores = ganadores;
+            cantGanadores = formulario.children[0].children[0].value;
+            localStorage.setItem("cantGanadores", cantGanadores);
             divGanadores.innerHTML =`<div class="card text-center text-bg-danger">
                                         <div class="card-body">
-                                            <h4> El sorteo tendrá ${formulario.children[0].value} ganadores</h4>
+                                            <h4> El sorteo tendrá ${(cantGanadores || "Error en la cantidad de ganadores")} ganadores</h4>
                                         </div>
                                     </div>`;
             submitGanadores.disabled = true;
             divTipoSorteo.innerHTML =`<div class="card">
                                         <div class="card-body">
                                             <h4>Paso 2: Ingresar el tipo de sorteo a realizar</h4>
-                                            <form id="formTipoSorteo">
-                                                <label for="tipo">Tipo de sorteo: </label>
-                                                <input type="radio" name="tipo" value="1" selected required> Nombres
-                                                <input type="radio" name="tipo" value="2" required> Números
-                                                <input type="submit" id="submitTipo" value="Seleccionar">
+                                            <form class="form-group m-3" id="formTipoSorteo">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="tipo" value="1" selected required>
+                                                    <label class="form-check-label" for="tipo">Nombres </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="tipo" value="2" required>
+                                                    <label class="form-check-label" for="tipo">Números </label>
+                                                </div>
+                                                <input class="btn btn-secondary" type="submit" id="submitTipo" value="Seleccionar">
                                             </form>
                                         </div>
                                     </div>`
@@ -302,6 +323,7 @@ formCargaNombre.addEventListener("submit", (e) => {
     localStorage.setItem("Participantes", JSON.stringify(participantes))
     //console.log(participantes)
     formCargaNombre.reset()
+    //listarNombres();
 })
 
 //Realizar la carga de los números
@@ -311,9 +333,28 @@ formCargaNumero.addEventListener("submit", (e) => {
     let formulario = new FormData(e.target);
     const numero = formulario.get("numero");
     numeros.push(numero);
-    localStorage.setItem("Numeros", JSON.stringify(numeros))
+    localStorage.setItem("Numeros", JSON.stringify(numeros));
     //console.log(numeros);
-    formCargaNumero.reset()
+    formCargaNumero.reset();
+    listarNumeros();
+})
+
+//Mostrar/ocultar participantes ingresados
+let btnListarNombres = document.getElementById("btnListarNombres");
+btnListarNombres.addEventListener("click",() => {
+    let divListado = document.getElementById("divListado");
+    divListado.style.display == "none" ? (divListado.style.display = "block", btnListarNombres.innerHTML = "Ocultar participantes") : (divListado.style.display = "none", btnListarNombres.innerHTML = "Ver participantes");
+    divListado.children[0].innerHTML = `<h4>Listado de participantes</h4>`;
+    listarNombres();
+})
+
+//Mostrar/ocultar números ingresados
+let btnListarNumeros = document.getElementById("btnListarNumeros");
+btnListarNumeros.addEventListener("click",() => {
+    let divListado = document.getElementById("divListado");
+    divListado.style.display == "none" ? (divListado.style.display = "block", btnListarNumeros.innerHTML = "Ocultar números") : (divListado.style.display = "none", btnListarNumeros.innerHTML = "Ver números");
+    divListado.children[0].innerHTML = `<h4>Listado de números</h4>`;
+    listarNumeros();
 })
 
 //Realizar sorteo
