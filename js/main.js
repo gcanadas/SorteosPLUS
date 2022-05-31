@@ -8,135 +8,6 @@ class Usuario {
 }
 }
 
-/*
-//Se implementarán en futuras versiones
-
-//Función para validar nombres
-function validarNombre(nombre) {
-    let ban;
-    do{
-        if (!nombreValido.test(nombre)) {
-            alert ("No es un nombre válido");
-            nombre = prompt ("Ingrese el nombre nuevamente");
-            ban = true;
-        }
-        else{
-            return nombre;
-        }
-    }while(ban);
-}
-
-function buscarNombre(participantes) {
-    buscar = prompt ("Ingrese nombre para realizar la busqueda");
-    const resultado = participantes.filter((el) => el.nombre.includes(buscar.toUpperCase()));
-    if (resultado == []) {
-        alert("No se encontro ninguna coincidencia");
-    }
-    else {
-        alert(`Se encontraron ${resultado.length} coincidencias.\n ${JSON.stringify(resultado)}`);
-        //Muestro en el DOM los resultados
-        let divBusqueda = document.createElement("div");
-        divBusqueda.innerHTML = `<h2> Se encontraron ${resultado.length} coincidencias </h2>`;
-        document.body.appendChild(divBusqueda);
-    
-        for (const buscar of resultado) {
-            let divBusqueda = document.createElement("div");
-            divBusqueda.innerHTML = `<h3> Nombre: ${buscar.nombre}. Apellido: ${buscar.apellido}. DNI: ${buscar.dni} </h3>`;
-            document.body.appendChild(divBusqueda);
-        }    
-    }
-}
-
-function modificarNombre(participantes) {
-    alert("La lista de participantes se mostrará a continuación")
-
-    //Muestro en el DOM todos los nombres cargados
-    for (let i=0; i < participantes.length; i++) {
-        let divParticipantes = document.createElement("div");
-        divParticipantes.innerHTML = `<h3> ${i+1}: Nombre: ${participantes[i].nombre}. Apellido: ${participantes[i].apellido}. DNI: ${participantes[i].dni} </h3>`;
-        document.body.appendChild(divParticipantes);
-
-        console.log(i + " " + " " + participantes[i].nombre + " " + participantes[i].apellido + " " + participantes[i].dni);
-    }
-
-    
-    let indice = parseInt(prompt("Ingresar la posición del dato a modificar. (Para salir ingrese 000)"));
-    if (indice == 000){
-        return participantes;
-    }
-    else{
-        let nombre = prompt("Ingrese el nombre");
-        nombre = validarNombre(nombre);
-        let apellido = prompt("Ingrese el apellido");
-        apellido = validarNombre(apellido);
-        let dni = prompt("Ingrese DNI");
-        participantes[indice-1] = (new Usuario(nombre, apellido, dni));
-        return participantes;
-    }
-}
-
-//Función para validar números
-function validarNumero(numero) {
-    let ban;
-    do{
-        if (numero == "ESC"){
-            return numero;
-        } 
-        else if (isNaN(numero)) {
-            alert ("No se ingreso un número");
-            numero = prompt ("Ingrese el número nuevamente");
-            ban = true;
-        }
-        else{
-            return numero;
-        }
-    }while(ban);
-}
-
-function buscarNumero(participantes) {
-    buscar = parseInt(prompt ("Ingrese el número que desea buscar"));
-    const resultado = participantes.filter((el) => el.includes(buscar));
-    if (resultado == []) {
-        alert("No se encontro ninguna coincidencia");
-    }
-    else {
-        alert(`Se encontraron ${resultado.length} coincidencias.\n ${JSON.stringify(resultado)}`);
-
-        //Muestro en el DOM los resultados
-        let divBusqueda = document.createElement("div");
-        divBusqueda.innerHTML = `<h2> Se encontraron ${resultado.length} coincidencias </h2>`;
-        document.body.appendChild(divBusqueda);
-    
-        for (let i=0; i < resultado.length; i++) {
-            let divBusqueda = document.createElement("div");
-            divBusqueda.innerHTML = `<h3> Número: ${resultado[i]} </h3>`;
-            document.body.appendChild(divBusqueda);
-        }    
-    }
-}
-
-function modificarNumero(participantes) {
-    alert("Para ver la lista de los números participantes abra la consola con F12")
-
-    for (let i=0; i < participantes.length; i++) {
-        let divParticipantes = document.createElement("div");
-        divParticipantes.innerHTML = `<h3> ${i+1}: Nombre: ${participantes[i].nombre}. Apellido: ${participantes[i].apellido}. DNI: ${participantes[i].dni} </h3>`;
-        document.body.appendChild(divParticipantes);
-
-        console.log(`${i}  es el número: ${participantes[i]}`);
-    }
-    
-    let indice = parseInt(prompt("Ingresar la posición del número a modificar. (Para salir ingrese 000)"));
-    if (indice == 000){
-        return participantes;
-    }
-    else{
-        let numero = prompt("Ingrese el número");
-        numero = validarNumero(numero);
-        participantes[indice-1] = numero;
-        return participantes;
-    }
-}*/
 
 //Función para listar los datos (numeros o nombres) que se ingresan
 function listarNombres() {
@@ -174,9 +45,7 @@ function sorteo() {
     console.log(cantGanadores);
     for(let i=0; i < cantGanadores; i++){
         aleatorio[i] = Math.floor((Math.random()*(participantes.length))); //calcúlo un índice aleatorio.
-        /*if(i >= 1){
-            aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i);
-        }*/
+
         i >= 1 && (aleatorio[i] = validarAleatorio(aleatorio, participantes.length, i));
 
         //Muestro los ganadores en el DOM
@@ -187,7 +56,6 @@ function sorteo() {
                                             </div>
                                         </div>`
         document.body.appendChild(divListarGanadores);
-        //alert (`El ganador número ${i+1} es: ${participantes[aleatorio[i]].nombre} ${participantes[aleatorio[i]].apellido} DNI: ${participantes[aleatorio[i]].dni}`);
     }
 }
 
@@ -196,9 +64,7 @@ function sorteoNumero() {
     let aleatorio = [];
     for(let i=0; i < cantGanadores; i++){
         aleatorio[i] = Math.floor((Math.random()*(numeros.length))); //calcúlo un índice aleatorio.
-        /*if(i >= 1){
-            aleatorio[i] = validarAleatorio(aleatorio, numeros.length, i);
-        }*/
+
         i >= 1 && (aleatorio[i] = validarAleatorio(aleatorio, numeros.length, i));
 
         //Muestro los ganadores en el DOM
@@ -209,7 +75,6 @@ function sorteoNumero() {
                                             </div>
                                         </div>`
         document.body.appendChild(divListarGanadores);
-        //alert (`El ${i + 1} ganador es el número: ${participantes[aleatorio[i]]}`);
     }
 }
 
@@ -252,7 +117,17 @@ btnComenzar.addEventListener("click", () => {
         let divTipoSorteo = document.getElementById("divTipoSorteo");
         let formulario = e.target;
         if ((formulario.children[0].children[0].value <= 0) || (formulario.children[0].children[0].value > 5)){
-            alert ("La cantidad de ganadores debe ser un número entre 1 y 5")
+            Toastify({
+                text: "La cantidad de ganadores debe ser un número entre 1 y 5",
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "center", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                  background: "linear-gradient(to right, #f00000, #dc281e)",
+                },
+              }).showToast();
         }
         else{
             cantGanadores = formulario.children[0].children[0].value;
@@ -306,7 +181,17 @@ btnComenzar.addEventListener("click", () => {
                     divSorteoNombres.style.display = "none";
                     break;
                 default:
-                    alert ("ERROR. NO SE INGRESO NINGUNA OPCIÓN")
+                    Toastify({
+                        text: "ERROR. NO SE INGRESO NINGUNA OPCIÓN",
+                        duration: 3000,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                          background: "linear-gradient(to right, #f00000, #dc281e)",
+                        },
+                    }).showToast();
                     break;
             }
         });
@@ -321,9 +206,18 @@ formCargaNombre.addEventListener("submit", (e) => {
     const participante = new Usuario (formulario.get("nombre"), formulario.get("apellido"), formulario.get("dni"))
     participantes.push(participante)
     localStorage.setItem("Participantes", JSON.stringify(participantes))
-    //console.log(participantes)
     formCargaNombre.reset()
-    //listarNombres();
+    Toastify({
+        text: "Participante ingresado correctamente",
+        duration: 3000,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "center", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #348f50, #56b4d3)",
+        },
+    }).showToast();
 })
 
 //Realizar la carga de los números
@@ -334,9 +228,18 @@ formCargaNumero.addEventListener("submit", (e) => {
     const numero = formulario.get("numero");
     numeros.push(numero);
     localStorage.setItem("Numeros", JSON.stringify(numeros));
-    //console.log(numeros);
     formCargaNumero.reset();
-    listarNumeros();
+    Toastify({
+        text: "Número ingresado correctamente",
+        duration: 3000,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "center", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #348f50, #56b4d3)",
+        },
+    }).showToast();
 })
 
 //Mostrar/ocultar participantes ingresados
