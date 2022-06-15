@@ -1,4 +1,3 @@
-
 let url = "https://randomuser.me/api/?results=1&seed=always&nat=es";
 let selectGanadores = document.getElementById("selectGanadores");
 let divUltimosGanadores = document.getElementById("divUltimosGanadores"); 
